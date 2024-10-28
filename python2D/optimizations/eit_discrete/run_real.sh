@@ -1,0 +1,15 @@
+dist="--distder 0.01"
+
+#command="python run_real.py --conf 1_2 $dist  --injectionset skip3 --lr 0.01"
+#eval "$command"
+#command="python run_real.py --conf 1_3 $dist  --injectionset skip3  --lr 0.01"
+#eval "$command"
+#command="python run_real.py --conf 1_4 $dist  --injectionset skip3  --lr 0.01"
+#eval "$command"
+
+command="python run_real.py --conf 1_2 --sdf $dist --injectionset all --lr 0.01 --confiter 4 --sdfres 32"
+eval "$command"
+command="python run_real.py --conf 1_3 --sdf $dist --injectionset all  --lr 0.01  --confiter 4 --sdfres 32"
+eval "$command"
+command="python run_real.py --conf 1_4 --sdf $dist --injectionset all --lr 0.01 --confiter 4  --sdfres 64"
+eval "$command"
