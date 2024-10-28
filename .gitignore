@@ -5,4 +5,9 @@ yarn.lock
 output/
 output3D/
 output2D/
+scenes/
+envmaps/
+animations/
+animation-generation/
 notebooks/animations/
+sdf/
