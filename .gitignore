@@ -1,0 +1,8 @@
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+yarn.lock
+output/
+output3D/
+output2D/
+notebooks/animations/
