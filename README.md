@@ -24,7 +24,7 @@ The repository is organized as follows:
 
 1. **Generate Results**:  
    Execute the shell scripts located in the \`python2D\` and \`python3D\` directories to reproduce the experimental results presented in the paper. 3D results require generation of a high resolution SDF from a mesh, you 
-   can simply run \`redistance/run.py\ for generation of the SDF. 
-   
+   can simply run \`redistance/run.py\ for generation of the SDF used in the paper.  
+
 2. **Generate Figures**:  
-   After running the experiments, use the Jupyter notebooks located in \`notebooks-2D/figure-generations\` and \`notebooks-3D/figure-generations\` to generate figures based on the computed results.
+   After running the experiments, use the Jupyter notebooks located in \`notebooks-2D/figure-generations\` and \`notebooks-3D/figure-generations\` to generate figures in the paper based on the computed results.
