@@ -424,21 +424,7 @@ class CircleShape(Shape):
                        normal_derivative_dist= self.normal_derivative_dist, wrapping = wrapping, interpolation=interpolation, 
                        redistance = redistance, high_res = high_res, low_res=resolution[0])
     
-        '''    
-    def generate_sdf_grid(self, resolution, box_length = 2, box_center = [0,0],
-                          wrapping = "clamp", interpolation = "cubic", redistance = True, high_res = 2048):
-        bbox = [[box_center[0] - box_length/2, box_center[1] - box_length/2],
-                [box_center[0] + box_length/2, box_center[1] + box_length/2]]
-        points, film_points = create_image_points(bbox = bbox, resolution = resolution, spp = 1, centered = True)
-        inside = self.inside_closed_surface(points)
-        min_d, a, b = self.closest_points(points)
-        distance = dr.select(inside, -min_d, min_d)
-        image_np, image_mi = create_image_from_result(distance, resolution)
-        return SDFGrid(image_np, box_length, box_center, self.dirichlet, self.epsilon, self.inf_distance, self.inf_boundary,
-                       self.inside, self.name,
-                       normal_derivative_dist= self.normal_derivative_dist, wrapping = wrapping, interpolation=interpolation, 
-                       redistance = redistance, high_res = high_res, low_res=resolution[0])
-    '''
+
         
     def move_circle_fd(self, fd_step, type = "x"):
         origin1 = [self.origin[0], self.origin[1]]
