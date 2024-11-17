@@ -12,7 +12,7 @@ class GaussianMixtureCoefficient(Coefficient):
                                     == num_lobes) else dr.full(mi.Float, std[0], num_lobes)
         std1 = mi.Float(std[1]) if (dr.width(mi.Float(std[1]))
                                     == num_lobes) else dr.full(mi.Float, std[1], num_lobes)
-        self.std = mi.Vector2f(std0, std1)
+        self.std = mi.Point2f(std0, std1)
         self.corr = mi.Float(corr) if (
             dr.width(mi.Float(corr)) == num_lobes) else dr.full(mi.Float, corr, num_lobes)
         self.bias = mi.Float(bias)
@@ -20,12 +20,12 @@ class GaussianMixtureCoefficient(Coefficient):
             mi.Float(mean[0])) == num_lobes) else dr.full(mi.Float, mean[0], num_lobes)
         mean1 = mi.Float(mean[1]) if (dr.width(
             mi.Float(mean[1])) == num_lobes) else dr.full(mi.Float, mean[1], num_lobes)
-        self.mean = mi.Vector2f(mean0, mean1)
+        self.mean = mi.Point2f(mean0, mean1)
         self.num_lobes = num_lobes
 
     def get_lobe_params(self, lobe_num: UInt):
-        mean = dr.gather(mi.Vector2f, self.mean, lobe_num)
-        std = dr.gather(mi.Vector2f, self.std, lobe_num)
+        mean = dr.gather(mi.Point2f, self.mean, lobe_num)
+        std = dr.gather(mi.Point2f, self.std, lobe_num)
         power = dr.gather(mi.Float, self.power, lobe_num)
         corr = dr.gather(mi.Float, self.corr, lobe_num)
         return mean, std, corr, power
@@ -43,7 +43,7 @@ class GaussianMixtureCoefficient(Coefficient):
         return value + self.bias
 
     def get_grad_laplacian(self, points):
-        grad = mi.Vector2f(0)
+        grad = mi.Point2f(0)
         laplacian = mi.Float(0)
         for i in range(self.num_lobes):
             mean, std, corr, power = self.get_lobe_params(mi.Float(i))
@@ -55,7 +55,7 @@ class GaussianMixtureCoefficient(Coefficient):
             E = dr.exp(exponent)
             C_x = -m * (XY[0] - corr * XY[1]) / std[0]
             C_y = -m * (XY[1] - corr * XY[0]) / std[1]
-            grad_ = A * E * power * mi.Vector2f(C_x, C_y)
+            grad_ = A * E * power * mi.Point2f(C_x, C_y)
             grad += grad_
             k = dr.rcp(dr.sqr(std[0])) + dr.rcp(dr.sqr(std[1]))
             laplacian += A * E * power * (dr.sqr(C_x) + dr.sqr(C_y) - m * k)

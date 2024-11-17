@@ -83,7 +83,7 @@ class DiskTextureCoefficient(Coefficient):
                        hessian_y * dr.sqr(jak[1, 1]) + grad_square[1] * jak2[1, 1] +
                        2 * hessian_xy * jak[0, 1] * jak[1, 1])
         
-        grad = mi.Vector2f(grad_x, grad_y)
+        grad = mi.Point2f(grad_x, grad_y)
         laplacian = laplacian_u + laplacian_v
         r = dr.norm(points - self.origin)
         return dr.select(r<self.inner_radius, grad, 0), dr.select(r<self.inner_radius, laplacian, 0)

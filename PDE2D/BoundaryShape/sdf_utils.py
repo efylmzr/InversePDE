@@ -110,12 +110,12 @@ def visualize1(bbox, resolution, sdf1, sdf2, bpoints = None, name1 = "Old", name
     
     xlength = bbox[1][0] - bbox[0][0]
     ylength = bbox[1][1] - bbox[0][1]
-    scale = mi.Vector2f(xlength/res_angle, ylength/res_angle)
+    scale = mi.Point2f(xlength/res_angle, ylength/res_angle)
     
     points = create_image_points(bbox, resolution = [res_angle, res_angle], spp = 1, centered = True)
     
-    dx1 = dr.normalize(mi.Vector2f(gx1_tex.get_value(points), gy1_tex.get_value(points))) * scale * 0.48
-    dx2 = dr.normalize(mi.Vector2f(gx2_tex.get_value(points), gy2_tex.get_value(points))) * scale * 0.48
+    dx1 = dr.normalize(mi.Point2f(gx1_tex.get_value(points), gy1_tex.get_value(points))) * scale * 0.48
+    dx2 = dr.normalize(mi.Point2f(gx2_tex.get_value(points), gy2_tex.get_value(points))) * scale * 0.48
     
     points_sketch = point2sketch(points, bbox, resolution = resolution).numpy().T
     dir1_sketch = dir2sketch(dx1, bbox, resolution = resolution).numpy().T
@@ -286,7 +286,7 @@ def visualize_grad(sdf, bbox, resolution, bpoints = None, res_angle = 32, range_
     #    mask = mask.numpy().squeeze()
     #    if len(mask) > 0:
     #        bpoints_np = bpoints.numpy().squeeze()
-    #        bpoints_ = mi.Vector2f(bpoints_np[mask])
+    #        bpoints_ = mi.Point2f(bpoints_np[mask])
     #        bpoints_sketch = point2sketch(bpoints_, bbox, resolution).numpy()
     #        ax2.scatter(bpoints_sketch[:,0], bpoints_sketch[:,1], s = ps, color = "green")
     #        ax1.scatter(bpoints_sketch[:,0], bpoints_sketch[:,1], s = ps, color = "white")
@@ -301,9 +301,9 @@ def visualize_grad(sdf, bbox, resolution, bpoints = None, res_angle = 32, range_
     gx_tex = TextureCoefficient("gx", bbox, gx, "nearest")
     gy_tex = TextureCoefficient("gy", bbox, gy, "nearest")
     plot_image(-2 * c+1, ax3, colorbar = False, cmap = "coolwarm", input_range = [-2, 2])
-    scale = mi.Vector2f(xlength/res_angle, ylength/res_angle)
+    scale = mi.Point2f(xlength/res_angle, ylength/res_angle)
     points = create_image_points(bbox, resolution = [res_angle, res_angle], spp = 1, centered = True)
-    dx = dr.normalize(mi.Vector2f(gx_tex.get_value(points), gy_tex.get_value(points))) * scale * 0.48
+    dx = dr.normalize(mi.Point2f(gx_tex.get_value(points), gy_tex.get_value(points))) * scale * 0.48
     
     points_sketch = point2sketch(points, bbox, resolution = resolution).numpy().T
     dir_sketch = dir2sketch(dx, bbox, resolution = resolution).numpy().T

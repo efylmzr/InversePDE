@@ -46,7 +46,7 @@ def sample_uniform_boundary(sample, origin, radius):
     sampled_points = origin + radius * direction
     return sampled_points, pdf / radius
 
-def sample_cosine_direction(sample : Float, direction : mi.Vector2f) -> tuple[mi.Vector2f, Float, Float]:
+def sample_cosine_direction(sample : Float, direction : mi.Point2f) -> tuple[mi.Point2f, Float, Float]:
     upper_sphere = sample >= 0.5
     sample = dr.select(upper_sphere, 2 * sample - 1, 2 * sample)
     angle_shift = dr.asin(2 * sample - 1)
@@ -59,15 +59,15 @@ def sample_cosine_direction(sample : Float, direction : mi.Vector2f) -> tuple[mi
     return sampled_direction, abs_dot_prod / 4, sign
 
 
-def sample_cosine_boundary(sample : Float, origin : mi.Point2f, radius : Float, direction : mi.Vector2f) -> tuple[mi.Vector2f, Float, Float]:
+def sample_cosine_boundary(sample : Float, origin : mi.Point2f, radius : Float, direction : mi.Point2f) -> tuple[mi.Point2f, Float, Float]:
     sampled_direction, pdf, sign = sample_cosine_direction(sample, direction)
     point = origin + radius * sampled_direction
     return point, pdf / radius, sign
 
 def sample_cosine_boundary_antithetic(sample, origin, radius, direction, active):
     angle_shift = dr.asin(2 * sample - 1)
-    direction1 = mi.Vector2f(dr.sin(angle_shift), dr.cos(angle_shift))
-    direction2 = mi.Vector2f(dr.sin(angle_shift), -dr.cos(angle_shift))
+    direction1 = mi.Point2f(dr.sin(angle_shift), dr.cos(angle_shift))
+    direction2 = mi.Point2f(dr.sin(angle_shift), -dr.cos(angle_shift))
     direction1 = to_world_direction(direction1, direction)
     direction2 = to_world_direction(direction2, direction)
     point1 = mi.Point2f(dr.select(active, origin + radius * direction1, origin))
@@ -85,11 +85,11 @@ def pdf_cosine_boundary(points, origin, R, direction):
 def sample_uniform_volume(sample, origin, radius):
     r =  radius * dr.sqrt(sample[0])
     theta = 2 * dr.pi * sample[1]
-    return mi.Vector2f(origin +  r * mi.Vector2f(dr.cos(theta),dr.sin(theta))), dr.rcp(dr.pi * dr.sqr(radius))
+    return mi.Point2f(origin +  r * mi.Point2f(dr.cos(theta),dr.sin(theta))), dr.rcp(dr.pi * dr.sqr(radius))
 
 
 
-def sample_sec_direction(sample : Float, direction : mi.Vector2f, threshold : Float = Float(0.49 * dr.pi)):
+def sample_sec_direction(sample : Float, direction : mi.Point2f, threshold : Float = Float(0.49 * dr.pi)):
     negative = sample >= 0.5
     sample = dr.select(negative, 2 * sample - 1, 2 * sample)
     angle_shift = sample_sec_angle(sample, threshold)
@@ -97,11 +97,11 @@ def sample_sec_direction(sample : Float, direction : mi.Vector2f, threshold : Fl
 
     angle_initial = dr.atan2(direction[1], direction[0])
     angle = angle_initial + angle_shift
-    sampled_direction = mi.Vector2f(dr.cos(angle), dr.sin(angle))
+    sampled_direction = mi.Point2f(dr.cos(angle), dr.sin(angle))
     return sampled_direction
 
 @dr.syntax
-def pdf_sec_direction(dir : mi.Vector2f, direction : mi.Vector2f, threshold : Float = Float(0.49 * dr.pi)):
+def pdf_sec_direction(dir : mi.Point2f, direction : mi.Point2f, threshold : Float = Float(0.49 * dr.pi)):
     pdf = Float(0)
     sec = dr.rcp(dr.dot(dir, direction))
     csc_d = dr.rcp(dr.sin(threshold))

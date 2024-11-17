@@ -79,7 +79,7 @@ class BoundaryInfo:
     @dr.syntax
     def sample_brute_force(self, sample : Float, mis_rate : Float = Float(0.5), threshold : Float = Float(0.49 * dr.pi)):
         "Applies a bit more sophisticated sampling scheme, mis between uniform and secant weighted distribution if we are near the boundary."
-        sampled_dir = Vector2f(0)
+        sampled_dir = Point2f(0)
         pdf = Float(0)
         if self.on_boundary | (self.d < (dr.abs(dr.rcp(self.curvature)) / 10)):
             direction = dr.select(self.on_boundary, self.bn, self.bdir)

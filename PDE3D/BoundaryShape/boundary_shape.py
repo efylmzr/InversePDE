@@ -72,7 +72,7 @@ class Shape():
         x = dr.repeat(x, spp)
         y = dr.repeat(y, spp)
         # Ray origin in local coordinates
-        ray_origin_local = mi.Vector2f(x, y)
+        ray_origin_local = mi.Point2f(x, y)
         
 
 
